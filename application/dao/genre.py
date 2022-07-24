@@ -1,13 +1,13 @@
-from dao.model.genre import Genre
+# все что касается Genre методов
+from application.dao.model.models import Genre
 
-#все что касается Genre методов
+
 class GenreDAO:
     def __init__(self, session):
         self.session = session
 
-    def get_all(self):
+    def get_all_genres_dao(self):
         return self.session.query(Genre).all()
 
-    def get_one(self, gid):
+    def get_one_genre_dao(self, gid):
         return self.session.query(Genre).filter(Genre.id == gid).one()
-
