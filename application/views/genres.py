@@ -12,6 +12,7 @@ genres_schema = GenreSchema(many=True)
 
 @genre_ns.route("/")
 class GenresView(Resource):
+    """Получить все жанры"""
     def get(self):
         genres = genre_service.get_all_genres_service()
         return genres_schema.dump(genres), 200
@@ -19,7 +20,8 @@ class GenresView(Resource):
 
 @genre_ns.route("/<int:gid>")
 class GenreView(Resource):
-    def get(self, gid):
+    """Получить все жанры по id"""
+    def get(self, gid: int):
         try:
             genre = genre_service.get_one_genre_service(gid)
         except NoResultFound as e:

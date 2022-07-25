@@ -8,13 +8,13 @@ from application.views.movies import movie_ns
 from application.views.genres import genre_ns
 
 
-def create_app(config) -> Flask:
+def create_app(config: Config) -> Flask: #пркручиваем конфиги
     app = Flask(__name__)
     app.config.from_object(config)
-    app.app_context().push()
+    app.app_context().push()  # применяет конфигурацию во все будущие компоненты
     return app
 
-
+# функция конфигурации приложения
 def register_extensions(app):
     db.init_app(app)
     api = Api(app)
@@ -23,8 +23,9 @@ def register_extensions(app):
     api.add_namespace(genre_ns)
 
 
-app = create_app(Config())
-register_extensions(app)
+
 
 if __name__ == "__main__":
+    app = create_app(Config())
+    register_extensions(app)
     app.run()

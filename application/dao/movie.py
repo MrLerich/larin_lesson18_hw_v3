@@ -29,20 +29,26 @@ class MovieDAO:
         movies = self.session.query(Movie)
         return movies.filter(Movie.year == year).all()
 
+    def get_movies_by_many_filters_dao(self, **kwargs):
+        """Get Movies by multifilters"""
+        movies = self.session.query(Movie)
+        return movies.filter_by(**{key: value for key, value in kwargs.items() if value is not None}).all()
+
+
     def create_movie_dao(self, **data):
         """Create new movie in DB"""
         try:
-            new_movie = Movie(**data)
-            self.session.add(new_movie)
+
+            self.session.add(Movie(**data))
             self.session.commit()
         except Exception as e:
             print(f"не удалось добавить фильм\n{e}")
             self.session.rollback()
 
-    def update_movie_dao(self, **movie):
+    def update_movie_dao(self, data: dict):
         """Get update_movie_service movie"""
         try:
-            self.session.query(Movie).filter(Movie.id == movie.get("id")).update_movie_service(**movie)
+            self.session.query(Movie).filter(Movie.id == data.get("id")).update_movie_service(data)
             self.session.commit()
 
         except Exception as e:

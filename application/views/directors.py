@@ -12,14 +12,14 @@ directors_schema = DirectorSchema(many=True)
 class DirectorsView(Resource):
     def get(self):
         directors = director_service.get_all_directors_service()
-        return director_schema.dump(directors, many=True), 200
+        return directors_schema.dump(directors), 200
 
 
 @director_ns.route("/<int:did>")
 class DirectorView(Resource):
-    def get(self, did):
+    def get(self, did: int):
         try:
-            director = director_service.get_one_director_service(did)
+            director = director_service.get_one_director_id_service(did)
         except NoResultFound as e:
             return f"{e}", 400
         return director_schema.dump(director), 200
