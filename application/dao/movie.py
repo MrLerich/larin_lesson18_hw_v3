@@ -35,22 +35,22 @@ class MovieDAO:
         return movies.filter_by(**{key: value for key, value in kwargs.items() if value is not None}).all()
 
 
-    def create_movie_dao(self, **data):
+    def create_movie_dao(self, **kwargs) -> bool:
         """Create new movie in DB"""
         try:
-
-            self.session.add(Movie(**data))
+            self.session.add(Movie(**kwargs))
             self.session.commit()
+            return True
         except Exception as e:
             print(f"не удалось добавить фильм\n{e}")
             self.session.rollback()
+            return False
 
     def update_movie_dao(self, data: dict):
         """Get update_movie_service movie"""
         try:
-            self.session.query(Movie).filter(Movie.id == data.get("id")).update_movie_service(data)
+            self.session.query(Movie).filter(Movie.id == data.get("id")).update(data)
             self.session.commit()
-
         except Exception as e:
             print(f"Не удалось обновить фильм\n{e}")
             self.session.rollback()
@@ -59,7 +59,6 @@ class MovieDAO:
     def delete_movie_dao(self, mid: int):
         """Delete a movie by id"""
         try:
-
             self.session.query(Movie).filter(Movie.id == mid).delete()
             self.session.commit()
         except Exception as e:
