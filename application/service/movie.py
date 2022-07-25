@@ -23,7 +23,7 @@ class MovieService:
         return self.movie_dao.get_by_year_dao(year)
 
     def get_movies_by_many_filters_service(self, **kwargs):
-        """Универсальный поиск по нескольким параметрам"""
+        """Универсальный поиск по нескольким параметрам """
         return self.movie_dao.get_movies_by_many_filters_dao(**kwargs)
 
     def create_movie_service(self, kwargs):
